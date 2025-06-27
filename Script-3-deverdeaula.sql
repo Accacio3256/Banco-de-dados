@@ -91,3 +91,5 @@ inner join film_actor fa on fa.film_id = f.film_id
 inner join actor a on a.actor_id = fa.actor_id 
 where a.first_name like 'P%';
 -- tô devendo tmb
+
+OBS: eu salvei mas subtitui pro errado, ent ta faltando
