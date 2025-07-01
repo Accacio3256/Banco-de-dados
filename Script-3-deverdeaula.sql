@@ -1,16 +1,18 @@
---Questão 1
+--Questão 1 - Filmes em Português
 select
-	count(*)
+	count(*) as "Quantos filme há em Português"
 from
 	film f
 inner join "language" l on
 	l.language_id = f.language_id
 where
-	l.name = 'Português'; -- R: 0
+	l."name" = 'Português';
 
---Questão 2 
+-- R: 0
+
+--Questão 2 - Quantos clientes alugaram o filme de id 7
 select
-	count(*)
+	count(*) as "Quantas pessoas alugaram o filme de id 7"
 from
 	rental r
 inner join inventory i 
@@ -22,37 +24,45 @@ on
 where
 	f.film_id = 7;
 
---Questão 3
+--R:15
+
+--Questão 3 - Total de Aluguéis
 select
-	count(*)
+	count(*) as "Quantidade de aluguéis"
 from
 	rental r;
+
 -- R: 16.044
 
---Questão 4
+--Questão 4 - Custo filme de id 600
 select
-	replacement_cost
+	replacement_cost as "Custo de reposição do filme de id 600"
 from
 	film f
 where
 	film_id = 600;
+
 --R: 16,99
 
---Questão 5
+--Questão 5 - Nome do funcionário com mais aluguéis
 select
-	s.first_name, s.last_name 
+	s.first_name as "Nome do Funcionário com mais Aluguéis",
+	s.last_name as "Sobrenome dele",
+	count(r.rental_id) as "Número de Aluguéis"
 from
 	staff s
 inner join rental r on
-	s.staff_id = r.staff_id 
+	s.staff_id = r.staff_id
 group by
-	s.first_name, s.last_name
+	s.first_name,
+	s.last_name
 order by 
-	count(r.rental_id) desc 
+	count(r.rental_id) desc
 limit 1;
+
 -- R: Mike
 	
---Questão 6
+--Questão 6 - Quantos funcionários há em cada loja
 select
 	count(s.staff_id)
 from
@@ -62,12 +72,24 @@ inner join address a on
 group by
 	s.staff_id;
 
+--Ou
 
-select a.address, count((*) from staff s inner join store s on s.store_id = sto.store_id inner join address a on a.address_id - sto.address_id group by a.address
---R: (OBS: utilizei o endereço, já que o endereço é único por loja, aí eu vejo a quantidade de staff ligado à ele)
---R==  em uma loja tem 1 e na outra 1 tmb
+select
+	a.address,
+	count(*)
+from
+	staff sta
+inner join store sto on
+	sta.store_id = sto.store_id
+inner join address a on
+	a.address_id = sto.store_id
+group by
+	a.address
 
---Questão 7
+--(OBS: Na primeira, utilizei o endereço, já que o endereço é único por loja, aí eu vejo a quantidade de staff ligado à ele)
+--R==  Em uma loja tem 1 e na outra 1 tmb
+
+--Questão 7 - lista de 8 colunas
 select
 	f.title as "Título do filme",
 	f.replacement_cost as "Custo de reposição",
@@ -99,11 +121,13 @@ inner join
 	store s2 on
 	s2.store_id = s.store_id
 order by (r.rental_date) desc
-limit 1 ;
+limit 1 ; 
 
---Questão 8
+--R= Zhivago Core, 10,99 , English, 2006-02-14 15:16:03.000, Louis, 373, Jon, 0,99 , 2
+
+--Questão 8 - Quanto atores trabalharam no filme de id 1
 select
-	count(*) as "quantidade de atores no filme de id 1"
+	count(*) as "Quantidade de atores no filme de id 1"
 from
 	film_actor fa 
 where 
@@ -111,4 +135,22 @@ where
 
 --R= 19
 
--- tô devendo tmb
+--Questão - 9 Qual loja tem mais inventários
+select 
+	s.store_id as "Id da loja",
+	count(i.inventory_id)
+from 
+	store s 
+inner join staff s2 on
+	s2.store_id = s.store_id 
+inner join rental r on
+	r.staff_id = s2.staff_id 
+inner join inventory i on
+	i.inventory_id = r.inventory_id
+group by 
+	s.store_id 
+order by 
+	count(i.inventory_id) desc
+limit 1;
+	
+	
