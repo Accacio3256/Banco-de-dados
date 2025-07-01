@@ -69,21 +69,35 @@ select a.address, count((*) from staff s inner join store s on s.store_id = sto.
 
 --Questão 7
 select
-	f.title ,
-	f.replacement_cost,
-	l."name",
-	r.last_update,
-	r.customer_id,
-	c.first_name,
-	s.first_name,
-	f.rental_rate
+	f.title as "Título do filme",
+	f.replacement_cost as "Custo de reposição",
+	l."name" as "Idioma",
+	r.rental_date as "Último aluguel",
+	c.first_name as "Nome do cliente",
+	r.customer_id as "Id do usuário",
+	s.first_name as "Nome do funcionário",
+	f.rental_rate as "Valor do aluguel",
+	s2.store_id as "Id da loja"
 from
-	film f,
-	"language" l,
-	rental r,
-	customer c,
-	staff s;
--- Tô devendo
+	film f
+inner join
+	"language" l on
+	l.language_id = f.language_id
+inner join
+	inventory i on
+	i.film_id = f.film_id
+inner join 
+	rental r on
+	r.inventory_id = i.inventory_id
+inner join 
+	customer c on
+	c.customer_id = r.customer_id
+inner join 
+	staff s on
+	s.staff_id = r.staff_id
+inner join 
+	store s2 on
+	s2.store_id = s.store_id ;
 
 --Questão 8
 select f.film_id =1, count(a.first_name) from film f 
