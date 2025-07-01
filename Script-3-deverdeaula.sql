@@ -97,7 +97,9 @@ inner join
 	s.staff_id = r.staff_id
 inner join 
 	store s2 on
-	s2.store_id = s.store_id ;
+	s2.store_id = s.store_id
+order by (r.rental_date) desc
+limit 1 ;
 
 --Questão 8
 select f.film_id =1, count(a.first_name) from film f 
