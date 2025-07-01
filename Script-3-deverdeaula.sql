@@ -102,8 +102,13 @@ order by (r.rental_date) desc
 limit 1 ;
 
 --Questão 8
-select f.film_id =1, count(a.first_name) from film f 
-inner join film_actor fa on fa.film_id = f.film_id
-inner join actor a on a.actor_id = fa.actor_id 
-where a.first_name like 'P%';
+select
+	count(*) as "quantidade de atores no filme de id 1"
+from
+	film_actor fa 
+where 
+	fa.actor_id = 1;
+
+--R= 19
+
 -- tô devendo tmb
